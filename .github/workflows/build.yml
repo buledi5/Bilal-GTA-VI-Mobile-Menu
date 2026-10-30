@@ -20,23 +20,31 @@ jobs:
         with:
           ndk-version: r27c
 
-      - name: Download AML PSDK
+      - name: Download GTA SA PSDK
         uses: actions/checkout@v4
         with:
           repository: AndroidModLoader/aml-psdk
           path: aml-psdk
 
-      - name: Find AML header
+      - name: Download AML core headers
+        uses: actions/checkout@v4
+        with:
+          repository: RusJJ/AndroidModLoader
+          path: aml-core
+
+      - name: Find AML headers
         run: |
-          HEADER=$(find aml-psdk -type f -path '*/include/mod/amlmod.h' -print -quit)
+          HEADER=$(find aml-core -type f -path '*/mod/amlmod.h' -print -quit)
+
           if [ -z "$HEADER" ]; then
-            echo "ERROR: amlmod.h was not found"
-            find aml-psdk -name amlmod.h
+            echo "ERROR: AML core header not found"
+            find aml-core -name amlmod.h
             exit 1
           fi
+
           INCLUDE_DIR=$(dirname "$(dirname "$HEADER")")
-          echo "AML_INCLUDE_DIR=$INCLUDE_DIR" >> "$GITHUB_ENV"
-          echo "Found AML header: $HEADER"
+          echo "AML_INCLUDE_DIR=$GITHUB_WORKSPACE/$INCLUDE_DIR" >> "$GITHUB_ENV"
+          echo "Found header: $HEADER"
 
       - name: Configure ARM64
         run: |
