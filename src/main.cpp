@@ -3,14 +3,17 @@
 
 MYMOD(
     BilalGTAVI,
-    "Bilal GTA VI Mobile Menu",
-    "0.1.0",
-    "Bilal"
+    Bilal GTA VI Mobile Menu,
+    0.1.0,
+    Bilal
 );
 
 NEEDGAME(com.rockstargames.gtasa);
 
-STARTUP
+ON_MOD_LOAD()
 {
-    aml->ShowToast("Bilal GTA VI Menu Loaded!");
+    if (aml)
+    {
+        aml->ShowToast(false, "Bilal GTA VI Menu Loaded!");
+    }
 }
